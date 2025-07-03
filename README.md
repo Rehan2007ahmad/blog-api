@@ -43,12 +43,13 @@ routes/
 ### Installation
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/Rehan2007ahmad/blog-api/
    cd blog
    ```
 2. Install dependencies:
    ```sh
-   npm install
+   npm init -y
+   npm i express  multer bcryptjs cloudinary dotenv  jsonwebtoken mongoose multer-storage-cloudinary
    ```
 3. Set up environment variables (e.g., database URI, Cloudinary credentials) in a `.env` file.
 
