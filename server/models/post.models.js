@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
-  {
+const postSchema = new mongoose.Schema({
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -22,11 +21,16 @@ const postSchema = new mongoose.Schema(
         mimetype: String,
       },
     ],
-
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+    slug:{
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+    }
   },
   { timestamps: true }
 );

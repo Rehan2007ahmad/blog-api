@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require('../config/multer')
 const {requireRoles} = require('../middleware/role.middleware')
 const {authenticateToken} = require('../middleware/auth.middleware')
-const {createPost, getposts, getPostById, deletePost, updatePost} = require('../controllers/post.controller');
+const {createPost, getposts, getPostById, deletePost, updatePost, getPostsBySlug} = require('../controllers/post.controller');
 
 //only admin and editor can access these routes
 router.post('/', upload.array('images', 10), authenticateToken, requireRoles('admin', 'editor' ), createPost);
@@ -13,5 +13,6 @@ router.put('/:id', upload.array('images', 10), authenticateToken, requireRoles('
 //any one can access this route
 router.get('/', getposts);
 router.get('/:id', getPostById);
+router.get('/slug/:slug', getPostsBySlug);
 
 module.exports = router

@@ -1,5 +1,8 @@
 const { image } = require('../config/cloudinary');
 const Post = require('../models/post.models');
+const slugify = require('slugify');
+const User = require('../models/user.models');
+const { post } = require('../routes/post.routes');
 
 exports.createPost = async (req, res) => {
   try {
@@ -30,6 +33,7 @@ exports.createPost = async (req, res) => {
       author,
       category,
       image: imageData,
+      slug: slugify(title, { lower: true, strict: true }) + '-' + Math.floor(10000 + Math.random() * 90000), 
     };
 
     const savedPost = await Post.create(data);
@@ -49,8 +53,9 @@ exports.getposts = async (req, res) => {
   try {
     const posts = await Post.find()
     .populate('author', 'firstName lastName email role')
-    .populate('category', 'name')
+    .populate('category')
     .sort({ createdAt: -1 });
+
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -128,6 +133,23 @@ exports.updatePost = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating post:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+exports.getPostsBySlug = async (req,res)=>{
+  try {
+    const slug = req.params.slug;
+    const post = await Post.findOne({ slug })
+      .populate('author', 'firstName lastName email role')
+      .populate('category', 'name');
+
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+    res.status(200).json(post);
+
+  } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
