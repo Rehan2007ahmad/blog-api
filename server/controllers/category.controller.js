@@ -33,9 +33,10 @@ exports.createCategory = async (req, res) => {
 exports.getAllCategories = async (req, res) => {
     try {
         const categories = await Category.find();
-        res.status(200).json({
-            categories: categories
-        });
+        if(!categories){
+            return res.status(400).json({message:"No category Found"})
+        }
+        res.status(200).json({categories});
     } catch (error) {
         res.status(500).json({
             message: 'Error fetching categories',
@@ -54,7 +55,7 @@ exports.getCategoryById = async (req, res) => {
             });
         }  
         res.status(200).json({
-            category: category
+            category
         });
 
     } catch (error) {
@@ -133,7 +134,7 @@ exports.getCategoryByName = async (req, res) => {
         }
 
         res.status(200).json({
-            category: category
+            category
         });
     } catch (error) {
         res.status(500).json({

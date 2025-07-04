@@ -7,7 +7,9 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-
+app.get('/', (req,res)=>{
+    res.send("hello World")
+})
 
 app.use('/api/user', require('./routes/user.routes'))
 app.use('/api/category', require('./routes/category.routes'))
