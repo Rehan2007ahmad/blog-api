@@ -43,12 +43,13 @@ routes/
 ### Installation
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/Rehan2007ahmad/blog-api/
    cd blog
    ```
 2. Install dependencies:
    ```sh
-   npm install
+   npm init -y
+   npm i express  multer bcryptjs cloudinary dotenv  jsonwebtoken mongoose multer-storage-cloudinary
    ```
 3. Set up environment variables (e.g., database URI, Cloudinary credentials) in a `.env` file.
 
@@ -130,16 +131,84 @@ npm start
   - Requires authentication and role (admin/editor)
 
 
+
 ### User API Endpoints (`/api/user`)
 
-| Method | Endpoint         | Description                        | Access  |
-|--------|------------------|------------------------------------|---------|
-| POST   | `/register`      | Register a new user                | Public  |
-| POST   | `/login`         | Login and get JWT token            | Public  |
-| GET    | `/`              | Get all users                      | Public  |
-| GET    | `/:id`           | Get a user by ID                   | Public  |
-| PUT    | `/:id`           | Update a user by ID                | Public  |
-| DELETE | `/:id`           | Delete a user by ID                | Public  |
+| Method | Endpoint           | Description                                         | Access  |
+|--------|--------------------|-----------------------------------------------------|---------|
+| POST   | `/register`        | Register a new user                                 | Public  |
+| POST   | `/login`           | Login and get JWT token                             | Public  |
+| GET    | `/`                | Get all users                                       | Public  |
+| GET    | `/:id`             | Get a user by ID                                    | Public  |
+| PUT    | `/:id`             | Update a user by ID                                 | Public  |
+| DELETE | `/:id`             | Delete a user by ID                                 | Public  |
+| POST   | `/send-otp`        | Send OTP to user's email for password reset         | Auth    |
+| POST   | `/verify-otp`      | Verify OTP sent to email                            | Auth    |
+| POST   | `/change-password` | Change password after OTP verification (with token) | Auth    |
+
+#### Password Reset Flow
+
+1. **Send OTP**
+   - `POST /api/user/send-otp`
+   - Body: `{ "email": "user@example.com" }`
+   - Requires authentication (JWT token)
+   - An OTP will be sent to the user's email address.
+
+2. **Verify OTP**
+   - `POST /api/user/verify-otp`
+   - Body: `{ "otp": 123456 }`
+   - Requires authentication (JWT token)
+   - If valid, a temporary token is returned for password change.
+
+3. **Change Password**
+   - `POST /api/user/change-password?token=<tempToken>`
+   - Body: `{ "newPassword": "newpassword123" }`
+   - Requires authentication (JWT token)
+   - Changes the user's password if the token is valid.
+
+#### Usage Examples
+
+- **Register User**
+  - `POST /api/user/register`
+  - Body: `{ "firstName": "John", "lastName": "Doe", "email": "john@example.com", "password": "secret123", "role": "user" }`
+  - Public access
+
+- **Login User**
+  - `POST /api/user/login`
+  - Body: `{ "email": "john@example.com", "password": "secret123" }`
+  - Public access
+
+- **Get All Users**
+  - `GET /api/user/`
+  - Public access
+
+- **Get User by ID**
+  - `GET /api/user/:id`
+  - Public access
+
+- **Update User**
+  - `PUT /api/user/:id`
+  - Body: `{ "firstName": "Jane", "lastName": "Smith", ... }`
+  - Public access
+
+- **Delete User**
+  - `DELETE /api/user/:id`
+  - Public access
+
+- **Send OTP**
+  - `POST /api/user/send-otp`
+  - Body: `{ "email": "user@example.com" }`
+  - Requires authentication (JWT token)
+
+- **Verify OTP**
+  - `POST /api/user/verify-otp`
+  - Body: `{ "otp": 123456 }`
+  - Requires authentication (JWT token)
+
+- **Change Password**
+  - `POST /api/user/change-password?token=<tempToken>`
+  - Body: `{ "newPassword": "newpassword123" }`
+  - Requires authentication (JWT token)
 
 #### Usage Examples
 
