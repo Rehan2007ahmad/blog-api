@@ -52,6 +52,13 @@ routes/
    npm i express  multer bcryptjs cloudinary dotenv  jsonwebtoken mongoose multer-storage-cloudinary
    ```
 3. Set up environment variables (e.g., database URI, Cloudinary credentials) in a `.env` file.
+   ```sh
+     PORT=3000
+     JWT_SECRET=your_jwt_secret
+    MONGO_URI=your mongodb url
+    CLOUDINARY_CLOUD_NAME=your_cloud_name
+    CLOUDINARY_API_KEY=your_api_key
+    CLOUDINARY_API_SECRET=your_api_secret
 
 ### Running the App
 ```sh
