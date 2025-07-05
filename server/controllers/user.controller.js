@@ -95,6 +95,8 @@ exports.getUser = async (req,res)=>{
         }
         //exclude password from the response        
         user.password = undefined;
+        user.otp = undefined
+        user.otpExpires=undefined
 
         res.status(200).json({ user });
     } catch (error) {
@@ -106,7 +108,9 @@ exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
         users.forEach(user => {
-            user.password = undefined; 
+            user.password = undefined;
+            user.otp=undefined
+            user.otpExpires = undefined 
         });
         res.status(200).json({ users });
     } catch (error) {
