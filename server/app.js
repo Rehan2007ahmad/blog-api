@@ -16,7 +16,6 @@ app.use('/api/category', require('./routes/category.routes'))
 app.use('/api/role', require('./routes/role.routes'))
 app.use('/api/post', require('./routes/post.routes'))
 
-// app.listen(process.env.PORT ,()=>{
-//     console.log(`server is running on port ${process.env.PORT}`)
-// })
-module.exports = app;
+app.listen(process.env.PORT ,()=>{
+    console.log(`server is running on port ${process.env.PORT}`)
+})
