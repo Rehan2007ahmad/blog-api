@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import { Route, Routes } from "react-router-dom";
@@ -11,6 +11,10 @@ import RequestOtp from "../UserRegister/RequestOtp";
 import Home from "../../Home"
 import NewPassword from "../UserRegister/NewPassword"
 import VerifyOtp from "../UserRegister/VerifyOtp"
+// admin Component
+import AdminHome from "../../Admin/AdminComponents/AdminHome";
+import AdminAddPosts from "../../Admin/Dashboard/AdminAddPosts";
+import AdminAddCategory from "../../Admin/Dashboard/AdminAddCategory"
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -157,6 +161,15 @@ const Header = () => {
         <Route path="/request-otp" element={<RequestOtp/>}/>
         <Route path="/verify-otp" element={<VerifyOtp/>}/>
         <Route path="/newpassword" element={<NewPassword/>}/>
+
+
+
+        {/* admin panel  */}
+        <Route path="/admin" element={<AdminHome/>}/>
+        <Route path="/admin/addpost" element={<AdminAddPosts/>}/>
+        <Route path="/admin/addcategory" element={<AdminAddCategory/>}/>
+
+
 
     </Routes>
       </>

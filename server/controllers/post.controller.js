@@ -9,12 +9,12 @@ exports.createPost = async (req, res) => {
     const  images  = req.files;
     const { title, description, author, category } = req.body;
 
-    if (!images || images.length === 0) {
-      return res.status(400).json({ message: "No images uploaded" });
-    }
-    if(images.length > 10) {
-      return res.status(400).json({ message: "You can upload a maximum of 10 images" });
-    }
+    // if (!images || images.length === 0) {
+    //   return res.status(400).json({ message: "No images uploaded" });
+    // }
+    // if(images.length > 10) {
+    //   return res.status(400).json({ message: "You can upload a maximum of 10 images" });
+    // }
 
     if (!title || !description || !author || !category) {
       return res.status(400).json({ message: "All fields are required" });
