@@ -13,14 +13,10 @@ const postSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    image: [
-      {
-        filename: String,
-        url: String,
-        size: Number,
-        mimetype: String,
-      },
-    ],
+    image:{
+      type: String,
+      required: true,
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

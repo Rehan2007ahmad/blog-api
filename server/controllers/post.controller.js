@@ -1,38 +1,21 @@
-const { image } = require('../config/cloudinary');
 const Post = require('../models/post.models');
 const slugify = require('slugify');
 const User = require('../models/user.models');
-const { post } = require('../routes/post.routes');
 
 exports.createPost = async (req, res) => {
   try {
-    const  images  = req.files;
-    const { title, description, author, category } = req.body;
+    const { title, description, author, category, image} = req.body;
 
-    // if (!images || images.length === 0) {
-    //   return res.status(400).json({ message: "No images uploaded" });
-    // }
-    // if(images.length > 10) {
-    //   return res.status(400).json({ message: "You can upload a maximum of 10 images" });
-    // }
-
-    if (!title || !description || !author || !category) {
+    if (!title || !description || !author || !category || !image ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
-    const imageData = images.map((file) => ({
-      filename: file.originalname,
-      url: file.path, 
-      size: file.size,
-      mimetype: file.mimetype,
-    }));
 
     const data = {
       title,
       description,
       author,
       category,
-      image: imageData,
+      image,
       slug: slugify(title, { lower: true, strict: true }) + '-' + Math.floor(10000 + Math.random() * 90000), 
     };
 
@@ -100,17 +83,7 @@ exports.deletePost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
-    const images = req.files;
-    const { title, description, author, category  } = req.body;
-
-
-
-   const imageData = images ? images.map((file) => ({
-      filename: file.originalname,
-      url: file.path, 
-      size: file.size,
-      mimetype: file.mimetype,
-    })) : undefined;
+    const { title, description, author, category, image } = req.body;
 
 
     const updatedData = {
@@ -118,7 +91,7 @@ exports.updatePost = async (req, res) => {
       description,
       author,
       category,
-      image: imageData
+      image,
     };
 
     const updatedPost = await Post.findByIdAndUpdate(postId, updatedData, { new: true });

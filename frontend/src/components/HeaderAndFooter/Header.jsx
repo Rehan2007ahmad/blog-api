@@ -23,6 +23,8 @@ import PublicRoute from "../Hooks/PublicRoute";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import ProtectedRoute from "../Hooks/ProtectedRoute";
+import AdminEditCategory from "../../Admin/Dashboard/AdminEditCategory";
+import AdminEditPost from "../../Admin/Dashboard/AdminEditPost";
 
 const Header = () => {
   let navigate = useNavigate();
@@ -214,6 +216,9 @@ const Header = () => {
         <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminHome/></ProtectedRoute>} />
         <Route path="/admin/addpost" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminAddPosts /></ProtectedRoute>} />
         <Route path="/admin/addcategory" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminAddCategory /></ProtectedRoute>} />
+        <Route path="/admin/editcategory" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditCategory /></ProtectedRoute>} />
+        <Route path="/admin/editpost" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditPost /></ProtectedRoute>} />
+        
       </Routes>
     </>
   );

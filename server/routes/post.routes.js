@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../config/multer')
 const {requireRoles} = require('../middleware/role.middleware')
 const {authenticateToken} = require('../middleware/auth.middleware')
 const {createPost, getposts, getPostById, deletePost, updatePost, getPostsBySlug} = require('../controllers/post.controller');
@@ -16,7 +15,7 @@ router.get('/:id', getPostById);
 router.get('/slug/:slug', getPostsBySlug);
 
 //for dev
-router.post('/', upload.array('images', 10), createPost);
+router.post('/', createPost);
 router.delete('/:id', deletePost);
 router.put('/:id',updatePost);
 
