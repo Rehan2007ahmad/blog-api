@@ -45,6 +45,7 @@ exports.createUser = async (req, res) => {
             user: savedUser,
             token: token
         });
+        console.log(token)
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });   
     }

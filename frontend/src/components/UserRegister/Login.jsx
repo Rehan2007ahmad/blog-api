@@ -1,8 +1,49 @@
-import React from "react";
-import { FaSignInAlt, FaEnvelope, FaLock  } from "react-icons/fa";
-
+import React, { useState } from "react";
+import { FaSignInAlt, FaEnvelope, FaLock } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Login = () => {
+  const navigate = useNavigate();
+  let [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput((perv) => ({ ...perv, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/user/login",
+        input
+      );
+      setInput({
+        email: "",
+        password: "",
+      });
+
+      const { token, user } = res.data;
+      Cookies.set("auth_token", token, { expires: 7 });
+      Cookies.set("name", user.firstName, { expires: 7 });
+
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else if (user.role === "editor") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="min-h-screen bg-gray-50 text-gray-800">
@@ -20,7 +61,7 @@ const Login = () => {
                 Sign in to access your account
               </p>
             </div>
-            <form className="mt-8 space-y-6">
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <label
@@ -31,17 +72,18 @@ const Login = () => {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaEnvelope className="fas fa-envelope text-gray-400"/>
+                      <FaEnvelope className="fas fa-envelope text-gray-400" />
                     </div>
                     <input
                       id="email"
                       name="email"
                       type="email"
+                      value={input.email}
+                      onChange={handleChange}
                       autoComplete="email"
                       required
                       className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                       placeholder="Enter your email"
-                      
                     />
                   </div>
                 </div>
@@ -54,17 +96,18 @@ const Login = () => {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaLock className="fas fa-lock text-gray-400"/>
+                      <FaLock className="fas fa-lock text-gray-400" />
                     </div>
                     <input
                       id="password"
                       name="password"
                       type="password"
+                      value={input.password}
+                      onChange={handleChange}
                       autoComplete="current-password"
                       required
                       className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                       placeholder="Enter your password"
-                      
                     />
                   </div>
                 </div>
@@ -87,12 +130,12 @@ const Login = () => {
                 </div>
 
                 <div className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    to="/request-otp"
                     className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -102,7 +145,7 @@ const Login = () => {
                   className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors !rounded-button whitespace-nowrap cursor-pointer"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <FaSignInAlt  className="fas fa-sign-in-alt text-indigo-300 group-hover:text-indigo-200" />
+                    <FaSignInAlt className="fas fa-sign-in-alt text-indigo-300 group-hover:text-indigo-200" />
                   </span>
                   Sign in
                 </button>
@@ -110,14 +153,13 @@ const Login = () => {
 
               <div className="text-center text-sm">
                 <span className="text-gray-600">Don't have an account?</span>{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
                   className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                 >
                   Sign up now
-                </a>
+                </Link>
               </div>
-
             </form>
           </div>
         </div>

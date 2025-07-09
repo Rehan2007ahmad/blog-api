@@ -1,6 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock, FaUserPlus} from "react-icons/fa";
+import axios from "axios"
+import Cookies from 'js-cookie';
+
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  let [input, setInput] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  })
+
+
+  const handleChange = (e)=>{
+    const {name, value} = e.target
+    setInput(perv => ({...perv, [name]:value}))
+  }
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault()
+    try {
+     const res =await axios.post('http://localhost:3000/api/user/register', input)
+
+     const {token, user} = res.data
+     Cookies.set('auth_token', token, {expires:7})
+     Cookies.set('Name', user.firstName, {expires:7})
+
+      setInput({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    })
+
+    if(user.role === 'admin'){
+      navigate('/admin')
+    }
+    else if (user.role === 'editor'){
+      navigate('editor')
+    }
+    else{
+      navigate('/')
+    }
+
+ 
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
+ 
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -16,7 +69,8 @@ const SignUp = () => {
               Join our community and start sharing your insights
             </p>
           </div>
-          <form className="mt-8 space-y-6" >
+
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -28,12 +82,14 @@ const SignUp = () => {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-user text-gray-400"></i>
+                      <FaUser className="text-gray-400"/>
                     </div>
                     <input
                       id="firstName"
                       name="firstName"
                       type="text"
+                      onChange={handleChange}
+                      value={input.firstName}
                       autoComplete="given-name"
                       required
                       className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
@@ -50,11 +106,13 @@ const SignUp = () => {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-user text-gray-400"></i>
+                      <FaUser className="text-gray-400"/>
                     </div>
                     <input
                       id="lastName"
                       name="lastName"
+                      onChange={handleChange}
+                      value={input.lastName}
                       type="text"
                       autoComplete="family-name"
                       required
@@ -73,11 +131,13 @@ const SignUp = () => {
                 </label>
                 <div className="mt-1 relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-envelope text-gray-400"></i>
+                    <FaEnvelope  className="text-gray-400"/>
                   </div>
                   <input
                     id="email"
                     name="email"
+                    value={input.email}
+                    onChange={handleChange}
                     type="email"
                     autoComplete="email"
                     required
@@ -95,12 +155,14 @@ const SignUp = () => {
                 </label>
                 <div className="mt-1 relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-lock text-gray-400"></i>
+                    <FaLock  className="text-gray-400"/>
                   </div>
                   <input
                     id="password"
                     name="password"
                     type="password"
+                    value={input.password}
+                    onChange={handleChange}
                     autoComplete="new-password"
                     required
                     className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
@@ -112,47 +174,25 @@ const SignUp = () => {
                 </p>
               </div>
             </div>
-            <div className="flex items-center mt-4">
-              <input
-                id="terms"
-                name="terms"
-                type="checkbox"
-                required
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
-              />
-              <label
-                htmlFor="terms"
-                className="ml-2 block text-sm text-gray-900 cursor-pointer"
-              >
-                I agree to the{" "}
-                <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                  Privacy Policy
-                </a>
-              </label>
-            </div>
             <div>
               <button
                 type="submit"
                 className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors !rounded-button whitespace-nowrap cursor-pointer mt-6"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <i className="fas fa-user-plus text-indigo-300 group-hover:text-indigo-200"></i>
+                  <FaUserPlus  className="text-indigo-300 group-hover:text-indigo-200 text-xl"/>
                 </span>
                 Create Account
               </button>
             </div>
             <div className="text-center text-sm mt-4">
               <span className="text-gray-600">Already have an account?</span>{" "}
-              <a
-                href="#"
+              <Link
+                to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
               >
                 Sign in
-              </a>
+              </Link>
             </div>           
           </form>
         </div>

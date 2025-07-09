@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaEnvelope,FaCheckCircle, FaExclamation   } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const RequestOtp = () => {
 
@@ -30,7 +32,7 @@ const RequestOtp = () => {
                 </label>
                 <div className="mt-1 relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-envelope text-gray-400"></i>
+                    <FaEnvelope  className=" text-gray-400"/>
                   </div>
                   <input
                     id="otpEmail"
@@ -48,29 +50,27 @@ const RequestOtp = () => {
                   className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors !rounded-button whitespace-nowrap cursor-pointer"
                 >
                   <span className="flex items-center">
-                    <i className="fas fa-check-circle mr-2"></i>
+                    <FaCheckCircle  className="mr-2"/>
                    Request OTP
                   </span>
                 </button>
 
                 <div className="text-sm text-center text-green-600">
-                  <i className="fas fa-check-circle mr-1"></i>
                   OTP sent successfully! Please check your email.
                 </div>
 
                 <div className="text-sm text-center text-red-600">
-                  <i className="fas fa-exclamation-circle mr-1"></i>
                   Failed to send OTP. Please try again.
                 </div>
 
               <div className="text-center text-sm">
                 <span className="text-gray-600">Already have an account?</span>{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/login"
                   className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                 >
                   Sign in
-                </a>
+                </Link>
               </div>
             </form>
           </div>
