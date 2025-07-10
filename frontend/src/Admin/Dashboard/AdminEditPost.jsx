@@ -4,8 +4,10 @@ import AdminHeader from "../AdminComponents/AdminHeader";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const AdminEditPost = () => {
+  let token = Cookies.get("auth_token");
   let { id } = useParams();
   let navigate = useNavigate();
   const [post, setPost] = useState({});
@@ -41,22 +43,20 @@ const AdminEditPost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatePost = async () => {
-      try {
-        await axios.put(`http://localhost:3000/api/post/${id}`, post);
-      } catch (error) {
-        console.error("Error updating post:", error);
-      }
-    };
-    toast.promise(updatePost(), {
-      loading: "Updating post...",
-      success: <b>Post updated!</b>,
-      error: <b>Could not update post.</b>,
-    });
-
-    setTimeout(() => {
-      navigate("/admin/addpost");
-    }, 2000);
+    try {
+      await axios.put(`http://localhost:3000/api/post/${id}`, post, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Post updated successfully!");
+      setTimeout(() => {
+        navigate("/admin/addpost");
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating post:", error);
+      toast.error("Could not update post.");
+    }
   };
   return (
     <>

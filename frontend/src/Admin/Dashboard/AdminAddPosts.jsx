@@ -43,20 +43,18 @@ const AdminAddPosts = () => {
   };
 
   const handleDeletePost = async (postId) => {
-    const deletePost = async () => {
       try {
-        await axios.delete(`http://localhost:3000/api/post/${postId}`);
+        await axios.delete(`http://localhost:3000/api/post/${postId}`,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         fetchPosts();
+        toast.success("Post deleted successfully!");
       } catch (error) {
         console.error("Error deleting post:", error);
+        toast.error("Could not delete post.");
       }
-    };
-
-    toast.promise(deletePost(),{
-      loading: "Deleting post...",
-      success: <b>Post deleted!</b>,
-      error: <b>Could not delete post.</b>,
-    });
   };
 
   const handlechange = (e) => {
@@ -66,12 +64,14 @@ const AdminAddPosts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const createPost = async () => {
       try {
         const response = await axios.post(
           "http://localhost:3000/api/post",
-          form
+          form,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setForm({
           title: "",
@@ -87,7 +87,6 @@ const AdminAddPosts = () => {
         console.error(error);
         toast.error("Could not add post.");
       }
-    };
 
     createPost()
   };

@@ -35,7 +35,7 @@ const App = () => {
       <div className="min-h-screen bg-gray-50 text-gray-800">
         {!isAdminRoute && <Header />}
         <Routes>
-          <Route path="/singlepost" element={<SinglePost />} />
+          <Route path="/post/:slug" element={<SinglePost />} />
           <Route path="/" element={<Home />} />
           <Route path="/category" element={<PostsByCategory />} />
 

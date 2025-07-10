@@ -4,9 +4,12 @@ import AdminHeader from "./AdminHeader";
 import axios from "axios";
 import { FaTags } from "react-icons/fa6";
 import { PiArticleNyTimesFill } from "react-icons/pi";
-import { FaUser, FaCalendar } from "react-icons/fa";
+import { FaUser, FaCalendar, FaEdit } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 
 const AdminHome = () => {
+  let navigate = useNavigate();
   let [posts, setPosts] = useState([]);
   let [categories, setCategories] = useState([]);
 
@@ -143,13 +146,10 @@ const AdminHome = () => {
                           </div>
                         </div>
                         <button
-                          onClick={() => {
-                            setEditingPost(post);
-                            setActiveTab("posts");
-                          }}
+                          onClick={() => navigate(`/admin/editpost/${post._id}`)}
                           className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer"
                         >
-                          <i className="fas fa-edit"></i>
+                          <FaEdit />
                         </button>
                       </div>
                     </div>

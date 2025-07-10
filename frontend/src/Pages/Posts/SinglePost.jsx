@@ -5,11 +5,13 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import RelatedArticels from '../../components/SideBars/RelatedArticels';
 import CategoryAside from '../../components/SideBars/CategoryAside';
 import SideNewsletter from '../../components/NewsLetter/SideNewsletter';
+import { useParams } from 'react-router-dom';
 
 
 
 
 const SinglePost = () => {
+  let {slug} = useParams()
   return (
 <>
       <div className="min-h-screen bg-gray-50 text-gray-800">

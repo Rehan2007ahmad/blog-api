@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 import { FaEdit, FaTrash, FaTags, FaUser, FaCalendar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const AdminAddCategory = () => {
+  const token = Cookies.get("auth_token");
   const navigate = useNavigate();
   let [categories, setcategories] = useState([]);
   let [posts, setPosts] = useState([]);
@@ -17,26 +19,26 @@ const AdminAddCategory = () => {
     setCategory((perv) => ({ ...perv, [name]: value }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const createCategory = async () => {
-    const res = await axios.post("http://localhost:3000/api/category/create", category);
-    fetchCategories();
-    setCategory({ name: "" });
-    return res;
-  };
-
-  toast.promise(
-    createCategory(),
-    {
-      loading: 'Adding category...',
-      success: <b>Category added!</b>,
-      error: <b>Could not add category.</b>,
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/category/create",
+        category,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchCategories();
+      setCategory({ name: "" });
+      toast.success("Category added successfully!");
+    } catch (error) {
+      toast.error("Failed to add category. Please try again.");
+      console.error("Error adding category:", error);
     }
-  );
 };
-
 
   const fetchCategories = async () => {
     try {
@@ -67,25 +69,21 @@ const handleSubmit = async (e) => {
       return;
     }
 
-   const deleteCategory = async () =>{
-     try {
+    try {
       const res = await axios.delete(
-        `http://localhost:3000/api/category/${categoryId}`
+        `http://localhost:3000/api/category/${categoryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       fetchCategories();
+      toast.success("Category deleted successfully!");
     } catch (error) {
+      toast.error("Failed to delete category. Please try again.");
       console.error("Error deleting category:", error);
     }
-   }
-
-     toast.promise(
-    deleteCategory(),
-    {
-      loading: 'Deleting category...',
-      success: <b>Category deleted!</b>,
-      error: <b>Could not delete category.</b>,
-    }
-  );
   };
 
   return (
