@@ -1,23 +1,27 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+import { FaEdit, FaTrash, FaTags, FaUser, FaCalendar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddPosts = () => {
+  let navigate = useNavigate();
   const token = Cookies.get("auth_token");
   const decodedToken = jwtDecode(token);
   const userId = decodedToken.id;
 
   let [posts, setPosts] = useState([]);
-  const [images, setImages] = useState([]);
 
   const [form, setForm] = useState({
     title: "",
     description: "",
     category: "",
-    author: "",
+    author: userId,
+    image: "",
   });
 
   const [category, setCategory] = useState([]);
@@ -28,45 +32,70 @@ const AdminAddPosts = () => {
       .then((res) => setCategory(res.data.categories));
   };
 
-  useEffect(() => {
-    fetchCategory();
-  }, []);
+  const fetchPosts = async () => {
+    try {
+      const res = await axios
+        .get("http://localhost:3000/api/post")
+        .then((res) => setPosts(res.data));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    const deletePost = async () => {
+      try {
+        await axios.delete(`http://localhost:3000/api/post/${postId}`);
+        fetchPosts();
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      }
+    };
+
+    toast.promise(deletePost(),{
+      loading: "Deleting post...",
+      success: <b>Post deleted!</b>,
+      error: <b>Could not delete post.</b>,
+    });
+  };
 
   const handlechange = (e) => {
     const { name, value } = e.target;
     setForm((perv) => ({ ...perv, [name]: value }));
   };
 
-  const handleImageChange = (e)=>{
-    setImages(e.target.files);
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", form.title);
-    formData.append("description", form.description);
-    formData.append("author", userId);
-    formData.append("category", form.category);
 
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
-    }
+    const createPost = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/post",
+          form
+        );
+        setForm({
+          title: "",
+          description: "",
+          category: "",
+          image: "",
+        });
+        fetchPosts();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    try {
-      const response = await axios.post("http://localhost:3000/api/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response.data);
-      setForm({ title: "", description: "", category: "", author: "" });
-      setImages([]);
+    toast.promise(createPost(), {
+      loading: "Adding post...",
+      success: <b>Post added!</b>,
+      error: <b>Could not add post.</b>,
+    });
+  };
 
-    } catch (error) {
-      console.error(error);
-    }
-  
-  }
+  useEffect(() => {
+    fetchCategory();
+    fetchPosts();
+  }, []);
 
   return (
     <>
@@ -104,9 +133,9 @@ const AdminAddPosts = () => {
                     <input
                       type="text"
                       name="author"
-                      value={userId}
+                      value={form.author}
+                      readOnly
                       onChange={handlechange}
-                      placeholder="Author name"
                       className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
@@ -122,6 +151,7 @@ const AdminAddPosts = () => {
                     onChange={handlechange}
                     className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
+                    <option value="">Select Category</option>
                     {category.map((a) => (
                       <option key={a._id} value={a._id}>
                         {a.name}
@@ -135,11 +165,10 @@ const AdminAddPosts = () => {
                     Image URL
                   </label>
                   <input
-                    type="file"
-                    name="images"
-                    onChange={handleImageChange}
-                    multiple
-                    accept="image/*"
+                    type="text"
+                    name="image"
+                    value={form.image}
+                    onChange={handlechange}
                     className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -182,13 +211,13 @@ const AdminAddPosts = () => {
                 ) : (
                   <div className="divide-y divide-gray-200">
                     {posts.map((post) => (
-                      <div key={post.id} className="p-6">
+                      <div key={post._id} className="p-6">
                         <div className="flex flex-col md:flex-row">
                           <div className="md:w-1/4 mb-4 md:mb-0 md:mr-6">
                             <img
                               src={post.image}
                               alt={post.title}
-                              className="w-full h-40 object-cover rounded-lg"
+                              className="w-full h-30 object-cover rounded-lg"
                             />
                           </div>
                           <div className="md:w-3/4">
@@ -197,28 +226,31 @@ const AdminAddPosts = () => {
                                 {post.title}
                               </h3>
                               <div className="flex space-x-2">
-                                <button className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer">
-                                  <i className="fas fa-edit"></i>
+                                <button onClick={() => navigate(`/admin/editpost/${post._id}`)} className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer">
+                                  <FaEdit className="text-xl" />
                                 </button>
-                                <button className="text-red-600 hover:text-red-800 !rounded-button whitespace-nowrap cursor-pointer">
-                                  <i className="fas fa-trash"></i>
+                                <button
+                                  onClick={() => handleDeletePost(post._id)}
+                                  className="text-red-600 hover:text-red-800 !rounded-button whitespace-nowrap cursor-pointer"
+                                >
+                                  <FaTrash className="text-xl" />
                                 </button>
                               </div>
                             </div>
                             <div className="flex items-center mb-2">
                               <span className="text-sm text-gray-500 mr-3">
-                                <i className="fas fa-user mr-1"></i>{" "}
-                                {post.author}
+                                <FaUser className="mr-1 text-md" />{" "}
+                                {post.author.firstName}{" "}
                               </span>
                               <span className="text-sm text-gray-500 mr-3">
-                                <i className="fas fa-folder mr-1"></i>{" "}
-                                Uncategorized
+                                <FaTags className="mr-1 text-md" />{" "}
+                                {post.category.name}
                               </span>
                               <span className="text-sm text-gray-500">
-                                <i className="fas fa-calendar mr-1"></i> 11
+                                <FaCalendar className="mr-1 text-md" />
+                                {new Date(post.createdAt).toLocaleDateString()}
                               </span>
                             </div>
-                            <p className="text-gray-600 line-clamp-3">Hello </p>
                           </div>
                         </div>
                       </div>

@@ -79,21 +79,6 @@ const AdminSideBar = () => {
           </div>
         </Link>
 
-        <Link to="/admin/editcategory">
-          <div
-            className={`flex items-center p-4 cursor-pointer ${
-              activeTab === "editcategory"
-                ? "bg-indigo-900"
-                : "hover:bg-indigo-700"
-            }`}
-          >
-            <FaEdit  className="text-2xl" />
-            <span className={`ml-4 ${sidebarOpen ? "block" : "hidden"}`}>
-              Edit Category
-            </span>
-          </div>
-        </Link>
-
         <Link to="/admin/addpost">
           <div
             className={`flex items-center p-4 cursor-pointer ${
@@ -107,18 +92,7 @@ const AdminSideBar = () => {
           </div>
         </Link>
 
-        <Link to="/admin/editpost">
-          <div
-            className={`flex items-center p-4 cursor-pointer ${
-              activeTab === "editpost" ? "bg-indigo-900" : "hover:bg-indigo-700"
-            }`}
-          >
-            <FaEdit  className="text-2xl" />
-            <span className={`ml-4 ${sidebarOpen ? "block" : "hidden"}`}>
-              Edit Post
-            </span>
-          </div>
-        </Link>
+       
       </nav>
     </div>
   );

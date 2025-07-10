@@ -25,6 +25,7 @@ import Cookies from "js-cookie";
 import ProtectedRoute from "../Hooks/ProtectedRoute";
 import AdminEditCategory from "../../Admin/Dashboard/AdminEditCategory";
 import AdminEditPost from "../../Admin/Dashboard/AdminEditPost";
+import Raw from "../../assets/Raw";
 
 const Header = () => {
   let navigate = useNavigate();
@@ -193,32 +194,22 @@ const Header = () => {
         <Route path="/request-otp" element={<RequestOtp />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/newpassword" element={<NewPassword />} />
+        
+        {/* raw routes */}
+        <Route path="/raw" element={<Raw />} />
 
         {/* if user is logged in then don't allow to access these routes */}
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <PublicRoute>
-              <SignUp />
-            </PublicRoute>
-          }
-        />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/signup" element={<PublicRoute><SignUp /></PublicRoute>} />
+      
 
         {/* admin panel  */}
         <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminHome/></ProtectedRoute>} />
         <Route path="/admin/addpost" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminAddPosts /></ProtectedRoute>} />
         <Route path="/admin/addcategory" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminAddCategory /></ProtectedRoute>} />
-        <Route path="/admin/editcategory" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditCategory /></ProtectedRoute>} />
-        <Route path="/admin/editpost" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditPost /></ProtectedRoute>} />
-        
+        <Route path="/admin/editcategory/:id" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditCategory /></ProtectedRoute>} />
+        <Route path="/admin/editpost/:id" element={<ProtectedRoute allowedRoles={['admin', 'editor']}><AdminEditPost /></ProtectedRoute>} />
+
       </Routes>
     </>
   );

@@ -1,7 +1,12 @@
 import React from 'react'
 import { FaBell } from "react-icons/fa";
 
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 const AdminHeader = () => {
+
+  const token = Cookies.get("auth_token");
+  const decodedToken = jwtDecode(token);
   return (
      <header className="bg-white shadow">
           <div className="flex justify-between items-center px-6 py-4">
@@ -26,7 +31,7 @@ const AdminHeader = () => {
                   alt="User"
                   className="h-8 w-8 rounded-full object-cover"
                 />
-                <span className="ml-2 font-medium text-gray-700">Hello, Admin</span>
+                <span className="ml-2 font-medium text-gray-700 capitalize">Hello, {decodedToken?.role} {decodedToken?.firstName}</span>
               </div>
             </div>
           </div>
