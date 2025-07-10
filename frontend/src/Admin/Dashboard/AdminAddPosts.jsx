@@ -80,16 +80,16 @@ const AdminAddPosts = () => {
           image: "",
         });
         fetchPosts();
+        toast.success("Post added successfully!");
+        navigate("/admin/addpost");
+        
       } catch (error) {
         console.error(error);
+        toast.error("Could not add post.");
       }
     };
 
-    toast.promise(createPost(), {
-      loading: "Adding post...",
-      success: <b>Post added!</b>,
-      error: <b>Could not add post.</b>,
-    });
+    createPost()
   };
 
   useEffect(() => {

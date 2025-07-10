@@ -4,9 +4,7 @@ import AdminHeader from "./AdminHeader";
 import axios from "axios";
 import { FaTags } from "react-icons/fa6";
 import { PiArticleNyTimesFill } from "react-icons/pi";
-import { FaUser,FaCalendar} from "react-icons/fa";
-
-
+import { FaUser, FaCalendar } from "react-icons/fa";
 
 const AdminHome = () => {
   let [posts, setPosts] = useState([]);
@@ -65,25 +63,28 @@ const AdminHome = () => {
                       <PiArticleNyTimesFill className="text-xl" />
                     </span>
                   </div>
-                  <p className="text-3xl font-bold text-center">{posts.length}</p>
+                  <p className="text-3xl font-bold text-center">
+                    {posts.length}
+                  </p>
                   <p className="text-sm text-gray-500 mt-2 text-center">
                     Last post on{" "}
-                    {posts.length > 0
-                      ? formatDate(posts[0].createdAt)
-                      : "N/A"}
+                    {posts.length > 0 ? formatDate(posts[0].createdAt) : "N/A"}
                   </p>
                 </div>
 
                 <div className="bg-white rounded-lg shadow p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-700"> Total 
-                      Categories
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      {" "}
+                      Total Categories
                     </h2>
                     <span className="text-indigo-600">
                       <FaTags className="text-xl" />
                     </span>
                   </div>
-                  <p className="text-3xl font-bold text-center">{categories.length}</p>
+                  <p className="text-3xl font-bold text-center">
+                    {categories.length}
+                  </p>
                   <p className="text-sm text-gray-500 mt-2 text-center">
                     Manage your content categories
                   </p>
@@ -98,7 +99,13 @@ const AdminHome = () => {
                       <FaUser className="text-xl" />
                     </span>
                   </div>
-                  <p className="text-3xl font-bold text-center">{new Set(posts.map(post => post.author)).size}</p>
+                  <p className="text-3xl font-bold text-center">
+                    {
+                      new Set(
+                        posts.map((post) => post.author?._id || post.author) // fallback in case author is just an ID
+                      ).size
+                    }{" "}
+                  </p>
                   <p className="text-sm text-gray-500 mt-2 text-center">
                     Contributing to your blog
                   </p>
@@ -106,41 +113,49 @@ const AdminHome = () => {
               </div>
 
               <div className="bg-white rounded-lg shadow overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-700">Recent Posts</h2>
-              </div>
-              <div className="divide-y divide-gray-200">
-                {posts.slice(0, 5).map(post => (
-                  <div key={post._id} className="px-6 py-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium text-gray-900">{post.title}</h3>
-                        <div className="flex items-center mt-1">
-                          <span className="text-sm text-gray-500 mr-3">
-                            <FaUser className="mr-1"/> {post.author.firstName}
-                          </span>
-                          <span className="text-sm text-gray-500 mr-3">
-                            <FaTags className="mr-1"/> {categories.find(c => c.id === post.categoryId)?.name || 'Uncategorized'}
-                          </span>
-                          <span className="text-sm text-gray-500">
-                            <FaCalendar className="mr-1"/> {formatDate(post.createdAt)}
-                          </span>
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h2 className="text-lg font-semibold text-gray-700">
+                    Recent Posts
+                  </h2>
+                </div>
+                <div className="divide-y divide-gray-200">
+                  {posts.slice(0, 5).map((post) => (
+                    <div key={post._id} className="px-6 py-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-medium text-gray-900">
+                            {post.title}
+                          </h3>
+                          <div className="flex items-center mt-1">
+                            <span className="text-sm text-gray-500 mr-3">
+                              <FaUser className="mr-1" />{" "}
+                              {post.author.firstName}
+                            </span>
+                            <span className="text-sm text-gray-500 mr-3">
+                              <FaTags className="mr-1" />{" "}
+                              {categories.find((c) => c.id === post.categoryId)
+                                ?.name || "Uncategorized"}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              <FaCalendar className="mr-1" />{" "}
+                              {formatDate(post.createdAt)}
+                            </span>
+                          </div>
                         </div>
+                        <button
+                          onClick={() => {
+                            setEditingPost(post);
+                            setActiveTab("posts");
+                          }}
+                          className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer"
+                        >
+                          <i className="fas fa-edit"></i>
+                        </button>
                       </div>
-                      <button 
-                        onClick={() => {
-                          setEditingPost(post);
-                          setActiveTab('posts');
-                        }}
-                        className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer"
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
             </div>
           </main>
         </div>
