@@ -143,7 +143,7 @@ const handleSubmit = async (e) => {
                           <p className="text-sm text-gray-500 mt-1">
                             {
                               posts.filter(
-                                (post) => post.category._id === category._id
+                                (post) => post.category?._id === category._id
                               ).length
                             }{" "}
                             posts

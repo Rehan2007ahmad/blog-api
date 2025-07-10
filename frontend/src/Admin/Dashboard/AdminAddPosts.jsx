@@ -244,7 +244,7 @@ const AdminAddPosts = () => {
                               </span>
                               <span className="text-sm text-gray-500 mr-3">
                                 <FaTags className="mr-1 text-md" />{" "}
-                                {post.category.name}
+                                {post.category?.name}
                               </span>
                               <span className="text-sm text-gray-500">
                                 <FaCalendar className="mr-1 text-md" />
