@@ -37,7 +37,7 @@ const App = () => {
         <Routes>
           <Route path="/post/:slug" element={<SinglePost />} />
           <Route path="/" element={<Home />} />
-          <Route path="/category" element={<PostsByCategory />} />
+          <Route path="/category/:name" element={<PostsByCategory />} />
 
           <Route path="/request-otp" element={<RequestOtp />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />

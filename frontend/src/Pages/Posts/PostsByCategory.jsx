@@ -1,6 +1,5 @@
-
-
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 const PostsByCategory = () => {
      const posts =[
@@ -71,16 +70,16 @@ const PostsByCategory = () => {
         tags: ['AugmentedReality', 'Technology', 'DigitalTransformation']
       }
     ]
-  
 
+    let {name} = useParams();
+    
 
   return (
      <div className="min-h-screen bg-gray-50 text-gray-800">
      
-      {/* Category Banner */}
       <div className="bg-indigo-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Technology</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{name}</h1>
           <p className="text-indigo-100 text-lg md:text-xl max-w-3xl">
             Explore the latest innovations, breakthroughs, and trends shaping the future of technology and digital transformation.
           </p>
