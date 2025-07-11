@@ -73,7 +73,7 @@ const PostsByCategory = () => {
 
     let {name} = useParams();
     
-
+    // http://localhost:3000/api/category/by-name/Technology
   return (
      <div className="min-h-screen bg-gray-50 text-gray-800">
      
