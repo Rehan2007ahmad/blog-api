@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import MDEditor from "@uiw/react-md-editor";
 
 const AdminEditPost = () => {
   let token = Cookies.get("auth_token");
@@ -140,16 +141,16 @@ const AdminEditPost = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Content
                   </label>
-                  <textarea
-                    placeholder="Post content"
-                    rows={6}
-                    name="description"
-                    onChange={handleChange}
-                    value={post.description || ""}
-                    className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  ></textarea>
+                  <MDEditor
+                  value={post.description || ""}
+                  height={300}
+                  onChange={(value) =>
+                    setPost((prev) => ({ ...prev, description: value || "" }))
+                  }
+                />
                 </div>
 
+                
                 <div className="flex justify-end">
                   <button
                     onClick={handleSubmit}

@@ -16,7 +16,6 @@ const AdminAddPosts = () => {
   const userId = decodedToken.id;
 
   let [posts, setPosts] = useState([]);
- 
 
   const [form, setForm] = useState({
     title: "",
@@ -25,7 +24,7 @@ const AdminAddPosts = () => {
     author: userId,
     image: "",
   });
- let [markdown, setMarkdown] = useState("");
+  let [markdown, setMarkdown] = useState("");
   const [category, setCategory] = useState([]);
 
   const fetchCategory = async () => {
@@ -66,8 +65,8 @@ const AdminAddPosts = () => {
 
   const handleMarkdownChange = (value) => {
     setMarkdown(value);
-    setForm(prev => ({ ...prev, description: value }));
-  }
+    setForm((prev) => ({ ...prev, description: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -183,16 +182,13 @@ const AdminAddPosts = () => {
 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Markdown
+                    Content
                   </label>
                   <MDEditor
                     onChange={handleMarkdownChange}
                     value={markdown}
                     height={300}
                   />
-                  {/* <div className="border mt-2 p-4 rounded bg-gray-50">
-                    <MDEditor.Markdown source={markdown} />
-                  </div> */}
                 </div>
 
                 <div className="flex justify-end">
