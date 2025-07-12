@@ -4,9 +4,9 @@ const User = require('../models/user.models');
 
 exports.createPost = async (req, res) => {
   try {
-    const { title, description, author, category, image} = req.body;
+    const { title, description, author, category, image, shortDescription} = req.body;
 
-    if (!title || !description || !author || !category || !image ) {
+    if (!title || !description || !author || !category || !image || !shortDescription) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -16,7 +16,8 @@ exports.createPost = async (req, res) => {
       author,
       category,
       image,
-      slug: slugify(title, { lower: true, strict: true }) + '-' + Math.floor(10000 + Math.random() * 90000), 
+      shortDescription,
+      slug: slugify(title, { lower: true, strict: true }) + '-' + Math.floor(10000 + Math.random() * 90000),
     };
 
     const savedPost = await Post.create(data);
@@ -83,12 +84,13 @@ exports.deletePost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
-    const { title, description, author, category, image } = req.body;
+    const { title, description, author, category, image, shortDescription } = req.body;
 
 
     const updatedData = {
       title,
       description,
+      shortDescription,
       author,
       category,
       image,
