@@ -105,7 +105,6 @@ const AdminAddPosts = () => {
     fetchCategory();
     fetchPosts();
   }, []);
-  console.log(form);
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex">

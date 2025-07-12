@@ -16,24 +16,14 @@ const NewPassword = () => {
   const checkPasswordStrength = (pass) => {
     let strength = 0;
     
-    // Length check
     if (pass.length >= 8) strength += 1;
-    
-    // Contains lowercase
     if (/[a-z]/.test(pass)) strength += 1;
-    
-    // Contains uppercase
-    if (/[A-Z]/.test(pass)) strength += 1;
-    
-    // Contains number
-    if (/[0-9]/.test(pass)) strength += 1;
-    
-    // Contains special character
+    if (/[A-Z]/.test(pass)) strength += 1;    
+    if (/[0-9]/.test(pass)) strength += 1    
     if (/[^A-Za-z0-9]/.test(pass)) strength += 1;
-    
+  
     setPasswordStrength(strength);
     
-    // Set error message if needed
     if (pass && pass.length < 8) {
       setPasswordError('Password must be at least 8 characters');
     } else if (pass && strength < 3) {

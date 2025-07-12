@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {requireRoles} = require('../middleware/role.middleware')
 const {authenticateToken} = require('../middleware/auth.middleware')
-const {createPost, getposts, getPostById, deletePost, updatePost, getPostsBySlug} = require('../controllers/post.controller');
+const {createPost, getposts, getPostById, deletePost, updatePost, getPostsBySlug, getPostsByCategory} = require('../controllers/post.controller');
 
 //only admin and editor can access these routes
 router.post('/', authenticateToken, requireRoles('admin', 'editor' ), createPost);
@@ -13,5 +13,6 @@ router.put('/:id', authenticateToken, requireRoles('admin', 'editor' ), updatePo
 router.get('/', getposts);
 router.get('/:id', getPostById);
 router.get('/slug/:slug', getPostsBySlug);
+router.get('/category/:cat', getPostsByCategory);
 
 module.exports = router
