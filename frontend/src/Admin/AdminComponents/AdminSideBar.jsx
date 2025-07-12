@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaArrowLeftLong, FaArrowRightLong, FaTags } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
 
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdLogout } from "react-icons/md";
 import { PiArticleNyTimesFill } from "react-icons/pi";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const AdminSideBar = () => {
+  let navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("");
   const location = useLocation();
 
   useEffect(() => {
     // Set active tab based on current route
-    if (
-      location.pathname.includes("/admin/addcategory")
-    ) {
+    if (location.pathname.includes("/admin/addcategory")) {
       setActiveTab("categories");
     } else if (location.pathname === "/admin") {
       setActiveTab("dashboard");
     } else if (location.pathname.includes("/admin/addpost")) {
       setActiveTab("posts");
-    } else if(location.pathname.includes("/admin/editcategory")){
-      setActiveTab('editcategory')
-    }else if(location.pathname.includes("/admin/editpost")){
-      setActiveTab("editpost")
+    } else if (location.pathname.includes("/admin/editcategory")) {
+      setActiveTab("editcategory");
+    } else if (location.pathname.includes("/admin/editpost")) {
+      setActiveTab("editpost");
     }
   }, [location.pathname]);
 
+  const handleLogout = () => {
+    Object.keys(Cookies.get()).forEach((cookie) => {
+      Cookies.remove(cookie);
+    });
+    navigate("/login");
+  };
   return (
     <div
       className={`bg-indigo-800 text-white transition-all duration-300 ${
@@ -92,7 +98,15 @@ const AdminSideBar = () => {
           </div>
         </Link>
 
-       
+        <button
+          onClick={handleLogout}
+          className="flex items-center p-4 w-full text-left hover:bg-indigo-700"
+        >
+          <MdLogout className="text-2xl" />
+          <span className={`ml-4 ${sidebarOpen ? "block" : "hidden"}`}>
+            Log Out
+          </span>
+        </button>
       </nav>
     </div>
   );
