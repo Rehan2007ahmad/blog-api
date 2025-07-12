@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { FaEdit, FaTrash, FaTags, FaUser, FaCalendar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor";
 
 const AdminAddPosts = () => {
   let navigate = useNavigate();
@@ -15,15 +16,16 @@ const AdminAddPosts = () => {
   const userId = decodedToken.id;
 
   let [posts, setPosts] = useState([]);
+ 
 
   const [form, setForm] = useState({
     title: "",
-    description: "",
     category: "",
+    description: "",
     author: userId,
     image: "",
   });
-
+ let [markdown, setMarkdown] = useState("");
   const [category, setCategory] = useState([]);
 
   const fetchCategory = async () => {
@@ -43,18 +45,18 @@ const AdminAddPosts = () => {
   };
 
   const handleDeletePost = async (postId) => {
-      try {
-        await axios.delete(`http://localhost:3000/api/post/${postId}`,{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        fetchPosts();
-        toast.success("Post deleted successfully!");
-      } catch (error) {
-        console.error("Error deleting post:", error);
-        toast.error("Could not delete post.");
-      }
+    try {
+      await axios.delete(`http://localhost:3000/api/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchPosts();
+      toast.success("Post deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      toast.error("Could not delete post.");
+    }
   };
 
   const handlechange = (e) => {
@@ -62,40 +64,47 @@ const AdminAddPosts = () => {
     setForm((perv) => ({ ...perv, [name]: value }));
   };
 
+  const handleMarkdownChange = (value) => {
+    setMarkdown(value);
+    setForm(prev => ({ ...prev, description: value }));
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/post",
-          form,{
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setForm({
-          title: "",
-          description: "",
-          category: "",
-          image: "",
-        });
-        fetchPosts();
-        toast.success("Post added successfully!");
-        navigate("/admin/addpost");
-        
-      } catch (error) {
-        console.error(error);
-        toast.error("Could not add post.");
-      }
 
-    createPost()
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/post",
+        { ...form, description: markdown },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setForm({
+        title: "",
+        description: "",
+        category: "",
+        image: "",
+        author: userId,
+      });
+      setMarkdown("");
+
+      fetchPosts();
+      toast.success("Post added successfully!");
+      navigate("/admin/addpost");
+    } catch (error) {
+      console.error(error);
+      toast.error("Could not add post.");
+    }
   };
 
   useEffect(() => {
     fetchCategory();
     fetchPosts();
   }, []);
-
+  console.log(form);
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex">
@@ -174,16 +183,16 @@ const AdminAddPosts = () => {
 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Content
+                    Markdown
                   </label>
-                  <textarea
-                    onChange={handlechange}
-                    name="description"
-                    value={form.description}
-                    placeholder="Post content"
-                    rows={6}
-                    className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  ></textarea>
+                  <MDEditor
+                    onChange={handleMarkdownChange}
+                    value={markdown}
+                    height={300}
+                  />
+                  {/* <div className="border mt-2 p-4 rounded bg-gray-50">
+                    <MDEditor.Markdown source={markdown} />
+                  </div> */}
                 </div>
 
                 <div className="flex justify-end">
@@ -225,7 +234,12 @@ const AdminAddPosts = () => {
                                 {post.title}
                               </h3>
                               <div className="flex space-x-2">
-                                <button onClick={() => navigate(`/admin/editpost/${post._id}`)} className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer">
+                                <button
+                                  onClick={() =>
+                                    navigate(`/admin/editpost/${post._id}`)
+                                  }
+                                  className="text-indigo-600 hover:text-indigo-800 !rounded-button whitespace-nowrap cursor-pointer"
+                                >
                                   <FaEdit className="text-xl" />
                                 </button>
                                 <button

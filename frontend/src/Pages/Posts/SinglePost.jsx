@@ -13,6 +13,8 @@ import SideNewsletter from "../../components/NewsLetter/SideNewsletter";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { readingTime } from "reading-time-estimator";
+import MDEditor from "@uiw/react-md-editor";
+import ReactMarkdown from "react-markdown";
 
 const SinglePost = () => {
   let { slug } = useParams();
@@ -75,18 +77,6 @@ const SinglePost = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* <div className="flex items-center space-x-3 mb-6">
-                  <span className="bg-indigo-100 text-indigo-600 px-3 py-1 text-sm rounded-full cursor-pointer">
-                    #ArtificialIntelligence
-                  </span>
-                  <span className="bg-indigo-100 text-indigo-600 px-3 py-1 text-sm rounded-full cursor-pointer">
-                    #Technology
-                  </span>
-                  <span className="bg-indigo-100 text-indigo-600 px-3 py-1 text-sm rounded-full cursor-pointer">
-                    #Future
-                  </span>
-                </div> */}
               </div>
 
               {/* Featured Image */}
@@ -106,7 +96,18 @@ const SinglePost = () => {
                 id="article-content"
                 className="prose prose-lg max-w-none mb-12"
               >
-                {post.description}
+                <div className="mt-4">
+                  <MDEditor.Markdown
+                    source={post.description}
+                    style={{
+                      whiteSpace: "pre-wrap",
+                      background: "white",
+                      color: "black",
+                      padding: "20px",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
               </article>
 
               {/* Author Bio */}

@@ -118,3 +118,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .custom-switch.active .custom-switch-thumb {
   transform: translateX(20px);
 }
+
+.wmde-markdown .anchor {
+  display: none;
+}
