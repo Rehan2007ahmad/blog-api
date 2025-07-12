@@ -35,7 +35,7 @@ const Featured = () => {
                   {item.title}
                 </h2>
                 <p className="text-gray-200 mb-6">
-                  {item.description}
+                  {item.shortDescription}
                 </p>
               </Link>
               <div className="flex items-center">

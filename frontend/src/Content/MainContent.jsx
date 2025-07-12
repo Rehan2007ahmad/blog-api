@@ -53,7 +53,7 @@ const MainContent = () => {
                   </h3></Link>
                   <Link to={`/post/${a.slug}`}>
                   <p className="text-gray-600 text-sm mb-4">
-                    {a.description}
+                    {a.shortDescription}
                   </p>
                   </Link>
                   <div className="flex items-center text-sm text-gray-500">

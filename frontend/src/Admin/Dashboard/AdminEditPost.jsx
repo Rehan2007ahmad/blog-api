@@ -103,7 +103,19 @@ const AdminEditPost = () => {
                     />
                   </div>
                 </div>
-
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Short Description
+                  </label>
+                  <input
+                    type="text"
+                    name="shortDescription"
+                    onChange={handleChange}
+                    value={post.shortDescription || ""}
+                    placeholder="Short description of the post in 160 characters"
+                    className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Category

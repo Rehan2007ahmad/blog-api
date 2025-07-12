@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { FaEdit, FaTrash, FaTags, FaUser, FaCalendar } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 
 const AdminAddPosts = () => {
@@ -23,6 +23,7 @@ const AdminAddPosts = () => {
     description: "",
     author: userId,
     image: "",
+    shortDescription: "",
   });
   let [markdown, setMarkdown] = useState("");
   const [category, setCategory] = useState([]);
@@ -86,6 +87,7 @@ const AdminAddPosts = () => {
         description: "",
         category: "",
         image: "",
+        shortDescription: "",
         author: userId,
       });
       setMarkdown("");
@@ -150,6 +152,23 @@ const AdminAddPosts = () => {
 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    shortDescription
+                  </label>
+                  <input
+                    type="text"
+                    name="shortDescription"
+                    value={form.shortDescription}
+                    maxLength={160}
+                    minLength={30}
+                    required
+                    placeholder="Short description of the post in 160 characters"
+                    onChange={handlechange}
+                    className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Category
                   </label>
                   <select
@@ -176,6 +195,7 @@ const AdminAddPosts = () => {
                     name="image"
                     value={form.image}
                     onChange={handlechange}
+                    placeholder="Image URL"
                     className="w-full border-none bg-gray-100 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -227,7 +247,9 @@ const AdminAddPosts = () => {
                           <div className="md:w-3/4">
                             <div className="flex justify-between items-start mb-2">
                               <h3 className="text-xl font-semibold text-gray-900">
-                                {post.title}
+                                <Link to={`/post/${post.slug}`} className="hover:underline">
+                                  {post.title}
+                                </Link>
                               </h3>
                               <div className="flex space-x-2">
                                 <button
@@ -260,6 +282,9 @@ const AdminAddPosts = () => {
                                 {new Date(post.createdAt).toLocaleDateString()}
                               </span>
                             </div>
+                            <p className="text-gray-600 line-clamp-3">
+                              {post.shortDescription}
+                            </p>
                           </div>
                         </div>
                       </div>
