@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaSignInAlt, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
 const Login = () => {
@@ -23,6 +24,7 @@ const Login = () => {
         "http://localhost:3000/api/user/login",
         input
       );
+      
       setInput({
         email: "",
         password: "",
@@ -32,16 +34,19 @@ const Login = () => {
       Cookies.set("auth_token", token, { expires: 7 });
       Cookies.set("name", user.firstName, { expires: 7 });
 
-      if (user.role === "admin") {
-        navigate("/admin");
-      } else if (user.role === "editor") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-      
+      toast.success(`Logged In Successfully As ${user.role}`);
+
+      setTimeout(() => {
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else if (user.role === "editor") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }, 1500);
     } catch (error) {
-      console.log(error);
+      toast.error('Failed To Login')
     }
   };
   return (

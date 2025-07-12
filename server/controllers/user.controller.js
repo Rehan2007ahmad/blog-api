@@ -213,16 +213,16 @@ exports.verifyOtp = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Invalid or expired OTP' });
         }
-        user.otp = undefined; // Clear OTP after successful verification
-        user.otpExpires = undefined; // Clear OTP expiration after successful verification
+        user.otp = undefined; 
+        user.otpExpires = undefined; 
         await user.save();
 
         const tempToken = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: '10m' } // Temporary token valid for 10 minutes
+            { expiresIn: '10m' } 
         );
-
+        console.log(tempToken)
         res.status(200).json({ message: 'OTP verified successfully, Now change your password', tempToken: tempToken });
 
     } catch (error) {
@@ -252,6 +252,7 @@ exports.changePassword = async (req, res) => {
         user.password = await bcrytp.hash(newPassword, 10);
         await user.save()
         res.status(200).json({message:"password changed Successfully"})
+        console.log('password changed')
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaUserPlus} from "react-icons/fa";
 import axios from "axios"
 import Cookies from 'js-cookie';
-
+import toast  from "react-hot-toast"; 
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -25,6 +25,7 @@ const SignUp = () => {
     try {
      const res =await axios.post('http://localhost:3000/api/user/register', input)
 
+     toast.success("Signup successful! 🎉");
      const {token, user} = res.data
      Cookies.set('auth_token', token, {expires:7})
      Cookies.set('Name', user.firstName, {expires:7})
@@ -45,12 +46,11 @@ const SignUp = () => {
     else{
       navigate('/')
     }
-
  
     } catch (error) {
-      console.log(error)
+      toast.error("Signup failed. Please try again.");
     }
-    
+  
   }
 
  

@@ -1,7 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import toast from 'react-hot-toast'
+
 
 const NewPassword = () => {
+  let navigate = useNavigate()
+  let location = useLocation()
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -9,8 +18,7 @@ const NewPassword = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordError, setPasswordError] = useState('');
 
-  useEffect(() => {
-  }, []);
+
 
 
   const checkPasswordStrength = (pass) => {
@@ -43,7 +51,7 @@ const NewPassword = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSetPassword = () => {
+  const handleSetPassword = async () => {
     if (password !== confirmPassword) {
       setPasswordError('Passwords do not match');
       return;
@@ -53,11 +61,14 @@ const NewPassword = () => {
       setPasswordError('Password is not strong enough');
       return;
     }
-    
-    // Here you would typically call an API to set the password
-    console.log('Password set successfully');
+    try {
+       await axios.post(`http://localhost:3000/api/user/change-password?token=${token}`, { newPassword: password })
+      toast.success('Password Changed Success Fully')
+      navigate('/login')
+    } catch (error) {
+      toast.error("Failed To Change Password")
+    }
     setPasswordError('');
-    // Redirect or show success message
   };
 
   return (
@@ -85,6 +96,7 @@ const NewPassword = () => {
               <div className="relative">
                 <input
                   id="password"
+                  name='newPassword'
                   type={passwordVisible ? "text" : "password"}
                   value={password}
                   onChange={handlePasswordChange}
