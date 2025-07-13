@@ -25,6 +25,7 @@ import ProtectedRoute from "./components/Hooks/ProtectedRoute";
 import AdminEditCategory from "./Admin/Dashboard/AdminEditCategory";
 import AdminEditPost from "./Admin/Dashboard/AdminEditPost";
 import Raw from "./assets/Raw";
+import AdminUsers from "./Admin/Dashboard/AdminUsers";
 
 const App = () => {
   let location = useLocation()
@@ -102,6 +103,15 @@ const App = () => {
             element={
               <ProtectedRoute allowedRoles={["admin", "editor"]}>
                 <AdminEditPost />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/user"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminUsers />
               </ProtectedRoute>
             }
           />

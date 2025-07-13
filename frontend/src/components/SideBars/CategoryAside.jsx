@@ -28,6 +28,8 @@ const CategoryAside = () => {
     fetchCategories();
     fetchPosts();
   }, []);
+
+  const categoryLength = category.length
   return (
     <>
       <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
@@ -45,7 +47,7 @@ const CategoryAside = () => {
               </span>
             </li>
           ))}
-          {category.slice(1, 10).map((a) => (
+          {category.slice(1, categoryLength).map((a) => (
             <li
               className="flex items-center py-2 hover:text-indigo-600 transition-colors cursor-pointer"
               key={a._id}

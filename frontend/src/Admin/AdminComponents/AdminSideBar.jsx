@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaArrowLeftLong, FaArrowRightLong, FaTags } from "react-icons/fa6";
-
+import { FaUser } from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { PiArticleNyTimesFill } from "react-icons/pi";
 import Cookies from "js-cookie";
@@ -25,6 +25,8 @@ const AdminSideBar = () => {
       setActiveTab("editcategory");
     } else if (location.pathname.includes("/admin/editpost")) {
       setActiveTab("editpost");
+    } else if (location.pathname.includes("/admin/user")){
+      setActiveTab('user')
     }
   }, [location.pathname]);
 
@@ -94,6 +96,19 @@ const AdminSideBar = () => {
             <PiArticleNyTimesFill className="text-2xl" />
             <span className={`ml-4 ${sidebarOpen ? "block" : "hidden"}`}>
               Posts
+            </span>
+          </div>
+        </Link>
+        
+        <Link to="/admin/user">
+          <div
+            className={`flex items-center p-4 cursor-pointer ${
+              activeTab === "user" ? "bg-indigo-900" : "hover:bg-indigo-700"
+            }`}
+          >
+            <FaUser className="text-2xl" />
+            <span className={`ml-4 ${sidebarOpen ? "block" : "hidden"}`}>
+              All Users
             </span>
           </div>
         </Link>
