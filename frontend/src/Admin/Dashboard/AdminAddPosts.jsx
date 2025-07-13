@@ -270,7 +270,7 @@ const AdminAddPosts = () => {
                             <div className="flex items-center mb-2">
                               <span className="text-sm text-gray-500 mr-3">
                                 <FaUser className="mr-1 text-md" />{" "}
-                                {post.author.firstName}{" "}
+                                {post.author?.firstName}{" "}
                               </span>
                               <span className="text-sm text-gray-500 mr-3">
                                 <FaTags className="mr-1 text-md" />{" "}

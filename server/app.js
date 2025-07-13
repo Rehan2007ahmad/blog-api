@@ -15,7 +15,6 @@ app.get('/', (req,res)=>{
 
 app.use('/api/user', require('./routes/user.routes'))
 app.use('/api/category', require('./routes/category.routes'))
-app.use('/api/role', require('./routes/role.routes'))
 app.use('/api/post', require('./routes/post.routes'))
 
 app.listen(process.env.PORT ,()=>{

@@ -132,7 +132,7 @@ const AdminHome = () => {
                           <div className="flex items-center mt-1">
                             <span className="text-sm text-gray-500 mr-3">
                               <FaUser className="mr-1" />{" "}
-                              {post.author.firstName}
+                              {post.author?.firstName}
                             </span>
                             <span className="text-sm text-gray-500 mr-3">
                               <FaTags className="mr-1" />{" "}
