@@ -16,7 +16,7 @@ const AdminEditPost = () => {
 
   const fetchPost = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/post/${id}`);
+      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/post/${id}`);
       setPost(res.data);
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -25,7 +25,7 @@ const AdminEditPost = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/category`);
+      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/category`);
       setCategories(res.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -45,7 +45,7 @@ const AdminEditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/api/post/${id}`, post, {
+      await axios.put(`https://blog-api-kag3.onrender.com/api/post/${id}`, post, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

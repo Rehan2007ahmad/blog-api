@@ -23,7 +23,7 @@ const SignUp = () => {
   const handleSubmit = async (e)=>{
     e.preventDefault()
     try {
-     const res =await axios.post('http://localhost:3000/api/user/register', input)
+     const res =await axios.post('https://blog-api-kag3.onrender.com/api/user/register', input)
 
      toast.success("Signup successful! 🎉");
      const {token, user} = res.data

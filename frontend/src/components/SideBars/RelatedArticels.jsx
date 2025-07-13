@@ -7,7 +7,7 @@ const RelatedArticels = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/post/`);
+      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/post/`);
       setPosts(res.data);
     } catch (error) {
       console.error("Error fetching posts:", error);

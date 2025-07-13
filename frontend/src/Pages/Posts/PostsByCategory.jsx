@@ -6,7 +6,7 @@ const PostsByCategory = () => {
   let [posts, setPosts] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/post/category/${name}`)
+      .get(`https://blog-api-kag3.onrender.com/api/post/category/${name}`)
       .then((res) => setPosts(res.data));
   }, [name]);
 

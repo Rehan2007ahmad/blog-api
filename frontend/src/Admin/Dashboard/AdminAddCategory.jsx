@@ -24,7 +24,7 @@ const AdminAddCategory = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/category/create",
+        "https://blog-api-kag3.onrender.com/api/category/create",
         category,{
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ const AdminAddCategory = () => {
         }
       );
       fetchCategories();
-      setCategory({ name: "" });
+      setCategory({name:""});
       toast.success("Category added successfully!");
     } catch (error) {
       toast.error("Failed to add category. Please try again.");
@@ -42,7 +42,7 @@ const AdminAddCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/category");
+      const res = await axios.get("https://blog-api-kag3.onrender.com/api/category");
       setcategories(res.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -51,7 +51,7 @@ const AdminAddCategory = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/post");
+      const res = await axios.get("https://blog-api-kag3.onrender.com/api/post");
       setPosts(res.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -71,7 +71,7 @@ const AdminAddCategory = () => {
 
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/category/${categoryId}`,
+        `https://blog-api-kag3.onrender.com/api/category/${categoryId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

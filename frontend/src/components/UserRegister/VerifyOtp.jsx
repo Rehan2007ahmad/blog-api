@@ -76,7 +76,7 @@ const VerifyOtp = () => {
       setIsVerifying(true);
       try {
         const res = await axios.post(
-          "http://localhost:3000/api/user/verify-otp",
+          "https://blog-api-kag3.onrender.com/api/user/verify-otp",
           { otp: enteredOtp }
         );
 

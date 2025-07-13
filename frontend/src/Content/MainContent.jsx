@@ -16,7 +16,7 @@ const MainContent = () => {
     let [postcount, setPostcount] = useState(4)
 
   useEffect(()=>{
-    axios.get('http://localhost:3000/api/post')
+    axios.get('https://blog-api-kag3.onrender.com/api/post')
       .then(response => {
         setPost(response.data)
       })

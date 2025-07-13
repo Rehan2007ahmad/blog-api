@@ -15,7 +15,7 @@ const AdminHome = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/post");
+      const response = await axios.get("https://blog-api-kag3.onrender.com/api/post");
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -23,7 +23,7 @@ const AdminHome = () => {
   };
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/category");
+      const response = await axios.get("https://blog-api-kag3.onrender.com/api/category");
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);

@@ -68,7 +68,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/user");
+      const res = await axios.get("https://blog-api-kag3.onrender.com/api/user");
       setUser(res.data.users);
     } catch (error) {
       toast.error("Failed To Fetch Users");
@@ -85,14 +85,14 @@ const AdminUsers = () => {
       if (isEditing) {
         // UPDATE user
         const res = await axios.put(
-          `http://localhost:3000/api/user/${editingUser._id}`,
+          `https://blog-api-kag3.onrender.com/api/user/${editingUser._id}`,
           formData
         );
         toast.success("User updated successfully");
       } else {
         //create user
         const res = await axios.post(
-          "http://localhost:3000/api/user/register",
+          "https://blog-api-kag3.onrender.com/api/user/register",
           formData
         );
         toast.success("User Created Successfully");
@@ -119,7 +119,7 @@ const AdminUsers = () => {
     );
     if (!confirm) return;
     try {
-      await axios.delete(`http://localhost:3000/api/user/${id}`);
+      await axios.delete(`https://blog-api-kag3.onrender.com/api/user/${id}`);
       toast.success("User Deleted Successfully");
       fetchUsers();
     } catch (error) {

@@ -18,7 +18,7 @@ const AdminEditCategory = () => {
     const fetchCategory = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/category/${id}`
+          `https://blog-api-kag3.onrender.com/api/category/${id}`
         );
         setInput({ name: response.data.category.name });
       } catch (error) {
@@ -37,7 +37,7 @@ const AdminEditCategory = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/category/${id}`,
+        `https://blog-api-kag3.onrender.com/api/category/${id}`,
         input,
         {
           headers: {

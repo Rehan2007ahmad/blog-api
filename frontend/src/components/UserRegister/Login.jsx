@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/user/login",
+        "https://blog-api-kag3.onrender.com/api/user/login",
         input
       );
       

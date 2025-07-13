@@ -69,7 +69,7 @@ const Header = () => {
                 Culture
               </a>
               <a
-                href="#"
+                href="/"
                 className="font-medium hover:text-indigo-600 transition-colors cursor-pointer"
               >
                 Business

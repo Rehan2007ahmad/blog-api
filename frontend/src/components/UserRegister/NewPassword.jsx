@@ -62,7 +62,7 @@ const NewPassword = () => {
       return;
     }
     try {
-       await axios.post(`http://localhost:3000/api/user/change-password?token=${token}`, { newPassword: password })
+       await axios.post(`https://blog-api-kag3.onrender.com/api/user/change-password?token=${token}`, { newPassword: password })
       toast.success('Password Changed Success Fully')
       navigate('/login')
     } catch (error) {

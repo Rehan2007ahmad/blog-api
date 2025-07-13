@@ -12,7 +12,7 @@ const RequestOtp = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/api/user/send-otp", { email });
+      await axios.post("https://blog-api-kag3.onrender.com/api/user/send-otp", { email });
       setEmail("");
       toast.success("OTP sent successfully! Please check your email.");
       navigate("/verify-otp");

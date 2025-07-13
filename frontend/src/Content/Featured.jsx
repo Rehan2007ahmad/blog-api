@@ -6,7 +6,7 @@ const Featured = () => {
   let [post, setPost] = useState([])
 
   useEffect(()=>{
-    axios.get('http://localhost:3000/api/post')
+    axios.get('https://blog-api-kag3.onrender.com/api/post')
       .then(response => {
         setPost(response.data)
       })
@@ -47,7 +47,7 @@ const Featured = () => {
                 <div>
                   <p className="font-medium">{item.author?.firstName} {item.author?.lastName}</p>
                   <p className="text-sm text-gray-300">
-                    {new Date(item.createdAt).toLocaleDateString()} · 8 min read
+                    {new Date(item.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>

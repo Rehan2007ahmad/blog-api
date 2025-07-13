@@ -21,7 +21,7 @@ const SinglePost = () => {
   let [post, setPost] = useState({});
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/post/slug/${slug}`).then((res) => {
+    axios.get(`https://blog-api-kag3.onrender.com/api/post/slug/${slug}`).then((res) => {
       setPost(res.data);
     });
   }, [slug]);
