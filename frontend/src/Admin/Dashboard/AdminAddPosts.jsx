@@ -30,14 +30,14 @@ const AdminAddPosts = () => {
 
   const fetchCategory = async () => {
     axios
-      .get("http://localhost:3000/api/category")
+      .get("https://blog-api-kag3.onrender.com/api/category")
       .then((res) => setCategory(res.data.categories));
   };
 
   const fetchPosts = async () => {
     try {
       const res = await axios
-        .get("http://localhost:3000/api/post")
+        .get("https://blog-api-kag3.onrender.com/api/post")
         .then((res) => setPosts(res.data));
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -46,7 +46,7 @@ const AdminAddPosts = () => {
 
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/post/${postId}`, {
+      await axios.delete(`https://blog-api-kag3.onrender.com/api/post/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +74,7 @@ const AdminAddPosts = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/post",
+        "https://blog-api-kag3.onrender.com/api/post",
         { ...form, description: markdown },
         {
           headers: {
