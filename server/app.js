@@ -17,9 +17,6 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-
-
-
 app.use('/api/user', require('./routes/user.routes'))
 app.use('/api/category', require('./routes/category.routes'))
 app.use('/api/post', require('./routes/post.routes'))
@@ -32,9 +29,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get('*', (req, res) => {
-  res.send('fallback 11');
-});
 
 
 app.listen(process.env.PORT ,()=>{
