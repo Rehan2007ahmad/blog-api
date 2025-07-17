@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import api from '../../lib/axios';
 import toast from 'react-hot-toast'
 
 
@@ -62,7 +62,7 @@ const NewPassword = () => {
       return;
     }
     try {
-       await axios.post(`https://blog-api-kag3.onrender.com/api/user/change-password?token=${token}`, { newPassword: password })
+       await api.post(`/user/change-password?token=${token}`, { newPassword: password })
       toast.success('Password Changed Success Fully')
       navigate('/login')
     } catch (error) {

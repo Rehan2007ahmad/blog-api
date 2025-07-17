@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaSignInAlt, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../../lib/axios';
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
@@ -20,8 +20,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://blog-api-kag3.onrender.com/api/user/login",
+      const res = await api.post(
+        "/user/login",
         input
       );
       
@@ -47,6 +47,7 @@ const Login = () => {
       }, 1500);
     } catch (error) {
       toast.error('Failed To Login')
+      console.log(error)
     }
   };
   return (

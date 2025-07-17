@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../lib/axios";
 import { Link } from "react-router-dom";
 
 const CategoryAside = () => {
@@ -8,7 +8,7 @@ const CategoryAside = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("https://blog-api-kag3.onrender.com/api/category");
+      const response = await api.get("/category");
       setCategory(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -17,7 +17,7 @@ const CategoryAside = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("https://blog-api-kag3.onrender.com/api/post");
+      const response = await api.get("/post");
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);

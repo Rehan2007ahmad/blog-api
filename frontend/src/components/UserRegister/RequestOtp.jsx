@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaCheckCircle, FaExclamation } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../../lib/axios';
 import toast from "react-hot-toast";
 
 const RequestOtp = () => {
@@ -12,7 +12,7 @@ const RequestOtp = () => {
     e.preventDefault();
 
     try {
-      await axios.post("https://blog-api-kag3.onrender.com/api/user/send-otp", { email });
+      await api.post("/user/send-otp", { email });
       setEmail("");
       toast.success("OTP sent successfully! Please check your email.");
       navigate("/verify-otp");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "./AdminSideBar";
 import AdminHeader from "./AdminHeader";
-import axios from "axios";
+import api from '../../lib/axios'
 import { FaTags } from "react-icons/fa6";
 import { PiArticleNyTimesFill } from "react-icons/pi";
 import { FaUser, FaCalendar, FaEdit } from "react-icons/fa";
@@ -15,7 +15,7 @@ const AdminHome = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("https://blog-api-kag3.onrender.com/api/post");
+      const response = await api.get("/post");
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -23,7 +23,7 @@ const AdminHome = () => {
   };
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("https://blog-api-kag3.onrender.com/api/category");
+      const response = await api.get("/category");
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);

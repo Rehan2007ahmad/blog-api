@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../lib/axios';
 import { Link } from 'react-router-dom'
 
 const Featured = () => {
   let [post, setPost] = useState([])
 
   useEffect(()=>{
-    axios.get('https://blog-api-kag3.onrender.com/api/post')
+    api.get('/post')
       .then(response => {
         setPost(response.data)
       })

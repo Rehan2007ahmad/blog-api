@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import api from '../../lib/axios';
 const PostsByCategory = () => {
   let { name } = useParams();
   let [posts, setPosts] = useState([]);
   useEffect(() => {
-    axios
-      .get(`https://blog-api-kag3.onrender.com/api/post/category/${name}`)
+    api
+      .get(`/post/category/${name}`)
       .then((res) => setPosts(res.data));
   }, [name]);
 

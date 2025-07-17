@@ -11,7 +11,7 @@ import RelatedArticels from "../../components/SideBars/RelatedArticels";
 import CategoryAside from "../../components/SideBars/CategoryAside";
 import SideNewsletter from "../../components/NewsLetter/SideNewsletter";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from '../../lib/axios';
 import { readingTime } from "reading-time-estimator";
 import MDEditor from "@uiw/react-md-editor";
 import ReactMarkdown from "react-markdown";
@@ -21,7 +21,7 @@ const SinglePost = () => {
   let [post, setPost] = useState({});
 
   useEffect(() => {
-    axios.get(`https://blog-api-kag3.onrender.com/api/post/slug/${slug}`).then((res) => {
+    api.get(`/post/slug/${slug}`).then((res) => {
       setPost(res.data);
     });
   }, [slug]);

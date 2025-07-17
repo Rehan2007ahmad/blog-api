@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
-import axios from "axios";
+import api from "../../lib/axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -29,15 +29,15 @@ const AdminAddPosts = () => {
   const [category, setCategory] = useState([]);
 
   const fetchCategory = async () => {
-    axios
-      .get("https://blog-api-kag3.onrender.com/api/category")
+    api
+      .get("/category")
       .then((res) => setCategory(res.data.categories));
   };
 
   const fetchPosts = async () => {
     try {
-      const res = await axios
-        .get("https://blog-api-kag3.onrender.com/api/post")
+      const res = await api
+        .get("/post")
         .then((res) => setPosts(res.data));
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -46,7 +46,7 @@ const AdminAddPosts = () => {
 
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`https://blog-api-kag3.onrender.com/api/post/${postId}`, {
+      await api.delete(`/post/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -73,8 +73,8 @@ const AdminAddPosts = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://blog-api-kag3.onrender.com/api/post",
+      const response = await api.post(
+        "/post",
         { ...form, description: markdown },
         {
           headers: {

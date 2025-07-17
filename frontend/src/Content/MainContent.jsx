@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../lib/axios';
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import { readingTime } from 'reading-time-estimator'
@@ -16,7 +16,7 @@ const MainContent = () => {
     let [postcount, setPostcount] = useState(4)
 
   useEffect(()=>{
-    axios.get('https://blog-api-kag3.onrender.com/api/post')
+    api.get('/post')
       .then(response => {
         setPost(response.data)
       })

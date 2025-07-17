@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
@@ -17,8 +17,8 @@ const AdminEditCategory = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await axios.get(
-          `https://blog-api-kag3.onrender.com/api/category/${id}`
+        const response = await api.get(
+          `/category/${id}`
         );
         setInput({ name: response.data.category.name });
       } catch (error) {
@@ -36,8 +36,8 @@ const AdminEditCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        `https://blog-api-kag3.onrender.com/api/category/${id}`,
+      const response = await api.put(
+        `/category/${id}`,
         input,
         {
           headers: {

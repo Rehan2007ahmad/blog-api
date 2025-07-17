@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import api from '../../lib/axios'
 import { FaEdit, FaTrash, FaTags, FaUser, FaCalendar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -23,8 +23,8 @@ const AdminAddCategory = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "https://blog-api-kag3.onrender.com/api/category/create",
+      const res = await api.post(
+        "/category/create",
         category,{
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,7 +42,7 @@ const AdminAddCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("https://blog-api-kag3.onrender.com/api/category");
+      const res = await api.get("/category");
       setcategories(res.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -51,7 +51,7 @@ const AdminAddCategory = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("https://blog-api-kag3.onrender.com/api/post");
+      const res = await api.get("/post");
       setPosts(res.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -70,8 +70,8 @@ const AdminAddCategory = () => {
     }
 
     try {
-      const res = await axios.delete(
-        `https://blog-api-kag3.onrender.com/api/category/${categoryId}`,
+      const res = await api.delete(
+        `category/${categoryId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
+import api from '../../lib/axios'
 import { Link } from 'react-router-dom'
 
 const RelatedArticels = () => {
@@ -7,7 +7,7 @@ const RelatedArticels = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/post/`);
+      const res = await api.get(`/post/`);
       setPosts(res.data);
     } catch (error) {
       console.error("Error fetching posts:", error);

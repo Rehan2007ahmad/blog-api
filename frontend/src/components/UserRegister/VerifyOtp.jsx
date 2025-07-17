@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import api from '../../lib/axios';
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -75,8 +75,8 @@ const VerifyOtp = () => {
     if (enteredOtp.length === 6) {
       setIsVerifying(true);
       try {
-        const res = await axios.post(
-          "https://blog-api-kag3.onrender.com/api/user/verify-otp",
+        const res = await api.post(
+          "/user/verify-otp",
           { otp: enteredOtp }
         );
 

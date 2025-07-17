@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import MDEditor from "@uiw/react-md-editor";
@@ -16,7 +16,7 @@ const AdminEditPost = () => {
 
   const fetchPost = async () => {
     try {
-      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/post/${id}`);
+      const res = await api.get(`/post/${id}`);
       setPost(res.data);
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -25,7 +25,7 @@ const AdminEditPost = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`https://blog-api-kag3.onrender.com/api/category`);
+      const res = await api.get(`/category`);
       setCategories(res.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -45,7 +45,7 @@ const AdminEditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://blog-api-kag3.onrender.com/api/post/${id}`, post, {
+      await api.put(`/post/${id}`, post, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponents/AdminSideBar";
 import AdminHeader from "../AdminComponents/AdminHeader";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import axios from "axios";
+import api from "../../lib/axios";
 import toast from "react-hot-toast";
 
 const AdminUsers = () => {
@@ -68,7 +68,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("https://blog-api-kag3.onrender.com/api/user");
+      const res = await api.get("/user");
       setUser(res.data.users);
     } catch (error) {
       toast.error("Failed To Fetch Users");
@@ -84,15 +84,15 @@ const AdminUsers = () => {
     try {
       if (isEditing) {
         // UPDATE user
-        const res = await axios.put(
-          `https://blog-api-kag3.onrender.com/api/user/${editingUser._id}`,
+        const res = await api.put(
+          `/user/${editingUser._id}`,
           formData
         );
         toast.success("User updated successfully");
       } else {
         //create user
-        const res = await axios.post(
-          "https://blog-api-kag3.onrender.com/api/user/register",
+        const res = await api.post(
+          "/user/register",
           formData
         );
         toast.success("User Created Successfully");
@@ -119,7 +119,7 @@ const AdminUsers = () => {
     );
     if (!confirm) return;
     try {
-      await axios.delete(`https://blog-api-kag3.onrender.com/api/user/${id}`);
+      await api.delete(`/user/${id}`);
       toast.success("User Deleted Successfully");
       fetchUsers();
     } catch (error) {
