@@ -11,8 +11,9 @@ router.put('/:id', authenticateToken, requireRoles('admin', 'editor' ), updatePo
 
 //any one can access this route
 router.get('/', getposts);
-router.get('/:id', getPostById);
 router.get('/slug/:slug', getPostsBySlug);
 router.get('/category/:cat', getPostsByCategory);
+router.get('/:id', getPostById);
+
 
 module.exports = router
