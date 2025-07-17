@@ -1,9 +1,23 @@
+require('dotenv').config();
 const express = require('express');
-const app = express();
+const { connectDB } = require('./config/db');
+const app = express()
+const cors = require('cors')
 
-app.use((req, res) => {
-  res.status(404).send("Not Found");
-});
-app.listen(3000, () => {
-  console.log('Server running on 3000');
-});
+connectDB()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+app.get('/', (req,res)=>{
+    res.send("hello World")
+})
+
+
+app.use('/api/user', require('./routes/user.routes'))
+app.use('/api/category', require('./routes/category.routes'))
+app.use('/api/post', require('./routes/post.routes'))
+
+
+app.listen(process.env.PORT ,()=>{
+    console.log(`server is running on port ${process.env.PORT}`)
+})
